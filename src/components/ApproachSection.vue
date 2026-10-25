@@ -49,17 +49,21 @@ const steps = [
         <span
           class="absolute inset-0 origin-bottom scale-y-0 bg-ink transition-transform duration-500 ease-out-expo group-hover:scale-y-100"
         ></span>
+        <!-- Stacked below lg; from lg it's one row with everything sitting on the heading's bottom edge.
+             The heading scales with the viewport so the longest word ("Understand") fits its 5 columns. -->
         <div
-          class="relative grid items-baseline gap-4 py-8 transition-colors duration-500 group-hover:text-paper md:grid-cols-12 md:px-4 md:py-10"
+          class="relative grid gap-4 py-8 transition-colors duration-500 group-hover:text-paper md:py-10 lg:grid-cols-12 lg:items-end lg:gap-x-8 lg:px-4"
         >
-          <span class="label md:col-span-1">0{{ i + 1 }}</span>
-          <h3
-            class="display text-6xl transition-transform duration-500 ease-out-expo group-hover:translate-x-3 md:col-span-4 md:text-8xl"
-          >
-            {{ s.title }}
-          </h3>
-          <p class="max-w-md text-lg md:col-span-4">{{ s.body }}</p>
-          <ul class="flex flex-wrap gap-2 md:col-span-3 md:justify-end">
+          <div class="lg:col-span-5 lg:flex lg:items-end lg:gap-6">
+            <span class="label block lg:pb-1.5">0{{ i + 1 }}</span>
+            <h3
+              class="display mt-4 text-6xl transition-transform duration-500 ease-out-expo group-hover:translate-x-3 md:text-8xl lg:mt-0 lg:text-[min(6.6vw,6rem)]"
+            >
+              {{ s.title }}
+            </h3>
+          </div>
+          <p class="max-w-md text-lg lg:col-span-4">{{ s.body }}</p>
+          <ul class="flex flex-wrap gap-2 lg:col-span-3 lg:justify-end">
             <li
               v-for="t in s.tags"
               :key="t"
