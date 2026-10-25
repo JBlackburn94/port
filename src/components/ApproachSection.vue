@@ -52,7 +52,7 @@ const steps = [
         <!-- Stacked below lg; from lg it's one row with everything sitting on the heading's bottom edge.
              The heading scales with the viewport so the longest word ("Understand") fits its 5 columns. -->
         <div
-          class="relative grid gap-4 py-8 transition-colors duration-500 group-hover:text-paper md:py-10 lg:grid-cols-12 lg:items-end lg:gap-x-8 lg:px-4"
+          class="relative grid gap-4 py-8 transition-[color,padding] duration-500 ease-out-expo group-hover:px-1 group-hover:text-paper md:py-10 lg:grid-cols-12 lg:items-end lg:gap-x-8 lg:px-4 lg:group-hover:px-4"
         >
           <div class="lg:col-span-5 lg:flex lg:items-end lg:gap-6">
             <span class="label block lg:pb-1.5">0{{ i + 1 }}</span>
