@@ -20,7 +20,13 @@ const backToTop = () => {
 </script>
 
 <template>
-  <footer ref="root" id="contact" class="relative overflow-hidden rounded-t-[2rem] bg-ink text-paper md:rounded-t-[3rem]">
+  <!-- The top margin lets the page background show above the rounded corners, so the footer
+       reads as its own card even when the section above is also dark -->
+  <footer
+    ref="root"
+    id="contact"
+    class="relative mt-6 overflow-hidden rounded-t-[2rem] bg-ink text-paper md:mt-10 md:rounded-t-[3rem]"
+  >
     <!-- Call to action -->
     <section class="px-5 pt-24 pb-16 md:px-10 md:pt-36">
       <p class="label mb-8 text-lilac">(04) Contact</p>
