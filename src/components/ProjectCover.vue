@@ -24,7 +24,14 @@ defineProps({ project: { type: Object, required: true } });
         aria-hidden="true"
       >
         <!-- Markmend-style feedback pins on dashed selection boxes -->
-        <g v-if="project.cover.motif === 'pins'" fill="none" stroke="currentColor" stroke-width="1.5">
+        <!-- Scaled in around the centre so the pins survive the 16:9 crop on wide cards -->
+        <g
+          v-if="project.cover.motif === 'pins'"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          transform="translate(200 150) scale(0.8) translate(-200 -150)"
+        >
           <rect x="40" y="40" width="200" height="54" rx="8" stroke-dasharray="6 5" />
           <rect x="190" y="130" width="170" height="120" rx="10" stroke-dasharray="6 5" />
           <rect x="60" y="150" width="96" height="34" rx="17" stroke-dasharray="6 5" />
