@@ -150,7 +150,7 @@ onBeforeUnmount(() => {
 
 <template>
   <!-- overflow-x-clip (not hidden) so the sticky controls below still stick to the viewport -->
-  <section id="work" ref="root" class="overflow-x-clip bg-ink pt-24 text-paper md:pt-28">
+  <section id="work" ref="root" class="overflow-x-clip bg-ink pt-24 pb-20 text-paper md:pt-28 md:pb-32">
     <div class="mb-10 grid gap-6 px-5 md:mb-14 md:grid-cols-12 md:px-10">
       <p class="label text-lilac md:col-span-3">(03) Selected work</p>
       <h2 class="display text-[16vw] md:col-span-9 md:text-[7.5vw]" data-reveal="lines">

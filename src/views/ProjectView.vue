@@ -95,13 +95,13 @@ const next = computed(() => {
     <RouterLink
       v-if="next"
       :to="`/work/${next.slug}`"
-      class="group block bg-ink px-5 pb-24 text-paper md:px-10"
+      class="group block bg-ink px-5 pb-20 text-paper md:px-10 md:pb-32"
       data-cursor="Next"
     >
       <p class="label text-lilac">Next project</p>
       <p class="display mt-4 text-[18vw] transition-colors group-hover:text-lime md:text-[12vw]">{{ next.title }} →</p>
     </RouterLink>
-    <div v-else class="h-8 bg-ink"></div>
+    <div v-else class="h-20 bg-ink md:h-32"></div>
   </article>
 
   <section v-else class="flex min-h-[80svh] flex-col items-start justify-center px-5 pt-32 md:px-10">

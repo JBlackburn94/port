@@ -14,5 +14,4 @@ const marquee = ["Problem solving", "Interface design", "Front-end", "Creative d
   <MarqueeBand :items="marquee" />
   <ApproachSection />
   <WorkCarousel />
-  <div class="h-8 bg-ink"></div>
 </template>
