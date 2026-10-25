@@ -26,7 +26,15 @@ const next = computed(() => {
       <RouterLink :to="{ path: '/', hash: '#work' }" class="label inline-flex items-center gap-2 hover:text-ink/60">
         ← All work
       </RouterLink>
-      <h1 class="display mt-10 text-[24vw] md:text-[17vw]" data-reveal="lines">{{ project.title }}</h1>
+      <!-- Sized from the title's length so any name fits the width: Anton capitals run up to
+           about 0.55em each (M and W are wide), so chars × 0.6em never exceeds the space -->
+      <h1
+        class="display mt-10 text-[min(24vw,calc((100vw-2.5rem)/(var(--chars)*0.6)))] md:text-[min(17vw,calc((100vw-5rem)/(var(--chars)*0.6)))]"
+        :style="{ '--chars': project.title.length }"
+        data-reveal="lines"
+      >
+        {{ project.title }}
+      </h1>
       <p class="mt-8 max-w-3xl text-2xl leading-snug font-medium tracking-tight md:text-4xl" data-reveal="fade">
         {{ project.summary }}
       </p>

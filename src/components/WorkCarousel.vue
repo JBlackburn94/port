@@ -123,7 +123,7 @@ onMounted(() => {
       // Settle on the card nearest to where the drag let go; a short flick still moves one card
       const nearest = cards.value.reduce(
         (best, _, i) => (Math.abs(offsetFor(i) - this.x) < Math.abs(offsetFor(best) - this.x) ? i : best),
-        0
+        0,
       );
       const moved = this.x - offsetFor(active.value);
       const flick = Math.abs(moved) > 60 ? (moved < 0 ? 1 : -1) : 0;
@@ -158,97 +158,108 @@ onBeforeUnmount(() => {
       </h2>
     </div>
 
-    <div class="px-5 md:px-10">
-      <div ref="track" class="flex cursor-grab gap-4 select-none active:cursor-grabbing md:gap-6" @click.capture="onTrackClick">
-        <article
-          v-for="(p, i) in projects"
-          :key="p.slug"
-          ref="cards"
-          class="w-[86%] shrink-0 transition-opacity duration-700 md:w-[64%] xl:w-[58%]"
-          :class="i === active ? 'opacity-100' : 'opacity-35 hover:opacity-60'"
-          :aria-hidden="i !== active"
-          @pointerenter="hoverCard(i, true)"
-          @pointerleave="hoverCard(i, false)"
+    <!-- Cards and controls share this wrapper: the sticky controls can't rise above it, so the
+         bar only ever floats over the cards, never over the heading -->
+    <div>
+      <div class="px-5 md:px-10">
+        <div
+          ref="track"
+          class="flex cursor-grab gap-4 select-none active:cursor-grabbing md:gap-6"
+          @click.capture="onTrackClick"
         >
-          <component
-            :is="p.placeholder ? 'div' : 'RouterLink'"
-            :to="p.placeholder ? undefined : `/work/${p.slug}`"
-            class="group block"
-            :data-cursor="cursorFor(p, i)"
-            :tabindex="i === active ? 0 : -1"
-            draggable="false"
-          >
-            <div class="aspect-[4/3] overflow-hidden rounded-2xl md:aspect-[16/9] md:rounded-3xl">
-              <ProjectCover :project="p" />
-            </div>
-            <!-- Stacked so it reads cleanly however narrow the card gets -->
-            <div class="mt-5">
-              <div class="flex flex-wrap items-center gap-3">
-                <h3 class="text-2xl font-semibold tracking-tight">{{ p.title }}</h3>
-                <span
-                  class="label rounded-full px-2.5 py-1 whitespace-nowrap"
-                  :class="p.placeholder ? 'bg-paper/10 text-paper/60' : 'bg-lime text-ink'"
-                >
-                  {{ p.status }}
-                </span>
-              </div>
-              <p class="mt-3 max-w-2xl text-paper/70">{{ p.summary }}</p>
-              <ul class="mt-4 flex flex-wrap gap-2">
-                <li
-                  v-for="t in p.tags"
-                  :key="t"
-                  class="label rounded-full border border-lilac/40 px-3 py-1.5 whitespace-nowrap text-lilac"
-                >
-                  {{ t }}
-                </li>
-              </ul>
-            </div>
-          </component>
-        </article>
-      </div>
-    </div>
-
-    <!-- Controls: progress timers plus prev/next. Sticks to the bottom of the screen while the
-         carousel is in view, so manual navigation is always in reach. -->
-    <div class="sticky bottom-0 z-10 mt-10 bg-ink/85 px-5 pt-5 pb-6 backdrop-blur-md md:mt-14 md:px-10">
-      <div class="flex items-center gap-5 md:gap-8">
-        <div class="grid min-w-0 flex-1 gap-3 md:gap-4" :style="{ gridTemplateColumns: `repeat(${projects.length}, minmax(0, 1fr))` }">
-          <button
+          <article
             v-for="(p, i) in projects"
             :key="p.slug"
-            class="group min-w-0 py-1 text-left"
-            :aria-label="`Show ${p.title}`"
-            :aria-current="i === active"
-            @click="goTo(i)"
+            ref="cards"
+            class="w-[86%] shrink-0 transition-opacity duration-700 md:w-[64%] xl:w-[58%]"
+            :class="i === active ? 'opacity-100' : 'opacity-35 hover:opacity-60'"
+            :aria-hidden="i !== active"
+            @pointerenter="hoverCard(i, true)"
+            @pointerleave="hoverCard(i, false)"
           >
-            <span class="block h-[3px] overflow-hidden rounded-full bg-paper/15">
-              <span ref="fills" class="block h-full origin-left scale-x-0 bg-lime"></span>
-            </span>
-            <span
-              class="label mt-3 hidden justify-between gap-2 transition-colors sm:flex"
-              :class="i === active ? 'text-paper' : 'text-paper/40 group-hover:text-paper/70'"
+            <component
+              :is="p.placeholder ? 'div' : 'RouterLink'"
+              :to="p.placeholder ? undefined : `/work/${p.slug}`"
+              class="group block"
+              :data-cursor="cursorFor(p, i)"
+              :tabindex="i === active ? 0 : -1"
+              draggable="false"
             >
-              <span class="truncate">{{ p.title }}</span>
-              <span class="hidden md:inline">0{{ i + 1 }}</span>
-            </span>
-          </button>
+              <div class="aspect-[4/3] overflow-hidden rounded-2xl md:aspect-[16/9] md:rounded-3xl">
+                <ProjectCover :project="p" />
+              </div>
+              <!-- Stacked so it reads cleanly however narrow the card gets -->
+              <div class="mt-5">
+                <div class="flex flex-wrap items-center gap-3">
+                  <h3 class="text-2xl font-semibold tracking-tight">{{ p.title }}</h3>
+                  <span
+                    class="label rounded-full px-2.5 py-1 whitespace-nowrap"
+                    :class="p.placeholder ? 'bg-paper/10 text-paper/60' : 'bg-lime text-ink'"
+                  >
+                    {{ p.status }}
+                  </span>
+                </div>
+                <p class="mt-3 max-w-2xl text-paper/70">{{ p.summary }}</p>
+                <ul class="mt-4 flex flex-wrap gap-2">
+                  <li
+                    v-for="t in p.tags"
+                    :key="t"
+                    class="label rounded-full border border-lilac/40 px-3 py-1.5 whitespace-nowrap text-lilac"
+                  >
+                    {{ t }}
+                  </li>
+                </ul>
+              </div>
+            </component>
+          </article>
         </div>
+      </div>
 
-        <div class="flex shrink-0 gap-2">
-          <button
-            class="pill size-11 justify-center border border-paper/25 p-0 hover:bg-lime hover:text-ink md:size-12"
-            aria-label="Previous project"
-            @click="goTo(active - 1)"
+      <!-- Controls: progress timers plus prev/next. Sticks to the bottom of the screen while the
+         carousel is in view, so manual navigation is always in reach. -->
+      <div class="sticky bottom-0 z-10 mt-10 bg-ink/85 px-5 pt-5 pb-6 backdrop-blur-md md:mt-14 md:px-10">
+        <div class="flex items-center gap-5 md:gap-8">
+          <div
+            class="grid min-w-0 flex-1 gap-3 md:gap-4"
+            :style="{ gridTemplateColumns: `repeat(${projects.length}, minmax(0, 1fr))` }"
           >
-            ←
-          </button>
-          <button
-            class="pill size-11 justify-center border border-paper/25 p-0 hover:bg-lime hover:text-ink md:size-12"
-            aria-label="Next project"
-            @click="goTo(active + 1)"
-          >
-            →
-          </button>
+            <button
+              v-for="(p, i) in projects"
+              :key="p.slug"
+              class="group min-w-0 py-1 text-left"
+              :aria-label="`Show ${p.title}`"
+              :aria-current="i === active"
+              @click="goTo(i)"
+            >
+              <span class="block h-[3px] overflow-hidden rounded-full bg-paper/15">
+                <span ref="fills" class="block h-full origin-left scale-x-0 bg-lime"></span>
+              </span>
+              <span
+                class="label mt-3 hidden justify-between gap-2 transition-colors sm:flex"
+                :class="i === active ? 'text-paper' : 'text-paper/40 group-hover:text-paper/70'"
+              >
+                <span class="truncate">{{ p.title }}</span>
+                <span class="hidden md:inline">0{{ i + 1 }}</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="flex shrink-0 gap-2">
+            <button
+              class="pill size-11 justify-center border border-paper/25 p-0 hover:bg-lime hover:text-ink md:size-12"
+              aria-label="Previous project"
+              @click="goTo(active - 1)"
+            >
+              ←
+            </button>
+            <button
+              class="pill size-11 justify-center border border-paper/25 p-0 hover:bg-lime hover:text-ink md:size-12"
+              aria-label="Next project"
+              @click="goTo(active + 1)"
+            >
+              →
+            </button>
+          </div>
         </div>
       </div>
     </div>

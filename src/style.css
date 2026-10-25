@@ -55,12 +55,21 @@
     text-transform: uppercase;
   }
 
-  /* Big condensed display type */
+  /* Big condensed display type. Anton's capitals are about 0.87em tall, so the line height
+     stays just above that: tight, but lines never collide. */
   .display {
     font-family: var(--font-display);
     text-transform: uppercase;
-    line-height: 0.86;
+    line-height: 0.9;
     letter-spacing: -0.01em;
+  }
+
+  /* SplitText's reveal masks clip to the line box; pad them (without moving anything) so
+     overshooting curves and accents are never shaved off */
+  .reveal-line-mask,
+  .split-char-mask {
+    padding-block: 0.08em;
+    margin-block: -0.08em;
   }
 
   /* Italic serif words dropped into display headlines */

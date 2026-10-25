@@ -100,7 +100,7 @@ const backToTop = () => {
       </p>
     </div>
 
-    <div class="label relative flex justify-between bg-ink px-5 py-4 text-paper/50 md:px-10">
+    <div class="label relative flex flex-wrap justify-between gap-x-6 gap-y-1 bg-ink px-5 py-4 text-paper/50 md:px-10">
       <span>© {{ year }} {{ site.name }}</span>
       <span>Built with Vue &amp; GSAP</span>
     </div>

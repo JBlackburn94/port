@@ -14,10 +14,10 @@ let ctx;
 const intro = () => {
   ctx = gsap.context(() => {
     if (prefersReducedMotion()) return;
-    const name = SplitText.create(".hero-name", { type: "chars", mask: "chars" });
+    const name = SplitText.create(".hero-name", { type: "chars", mask: "chars", charsClass: "split-char" });
     gsap
       .timeline({ defaults: { ease: "expo.out" } })
-      .from(name.chars, { yPercent: 105, duration: 1.3, stagger: 0.035 })
+      .from(name.chars, { yPercent: 120, duration: 1.3, stagger: 0.035 })
       .from(".hero-fade", { y: 24, autoAlpha: 0, duration: 1, stagger: 0.08 }, 0.4)
       .from(".hero-badge", { scale: 0, rotate: -90, duration: 1.4 }, 0.5);
 
@@ -49,9 +49,9 @@ onBeforeUnmount(() => ctx?.revert());
   <!-- Fills the screen on desktop; on phones it's content-height so the name sits near the top -->
   <section
     ref="root"
-    class="relative flex flex-col overflow-hidden px-5 pt-24 pb-12 md:min-h-svh md:justify-end md:px-10 md:pt-28 md:pb-8"
+    class="relative flex flex-col overflow-hidden px-5 pt-24 pb-12 md:min-h-svh md:justify-end md:px-10 md:pt-24 md:pb-8"
   >
-    <div class="label hero-fade mb-auto grid grid-cols-2 gap-4 pt-6 md:grid-cols-4">
+    <div class="label hero-fade mb-auto grid grid-cols-2 gap-4 pt-6 md:grid-cols-4 md:pt-2">
       <span>(00) Portfolio · {{ new Date().getFullYear() }}</span>
       <span class="hidden md:block">{{ site.location }}</span>
       <span class="hidden md:block">{{ time }} local time</span>
@@ -65,18 +65,19 @@ onBeforeUnmount(() => ctx?.revert());
     </div>
 
     <h1 class="sr-only">{{ site.name }}, {{ site.role }}</h1>
-    <div aria-hidden="true" class="hero-name display mt-10 text-[19.5vw] leading-[0.8] whitespace-nowrap md:text-[21.5vw]">
+    <div aria-hidden="true" class="hero-name display mt-10 text-[19.5vw] whitespace-nowrap md:mt-6 md:text-[21.5vw]">
       <div class="hero-name-a">Jason</div>
       <div class="hero-name-b text-right">Blackburn</div>
     </div>
 
-    <div class="mt-8 grid items-end gap-8 md:grid-cols-12">
-      <p class="hero-fade text-4xl leading-[1.05] font-medium tracking-tight md:col-span-6 md:text-6xl">
+    <div class="mt-8 grid items-end gap-8 md:mt-6 md:grid-cols-12">
+      <!-- Full width on tablets so the tagline keeps to two lines; side by side from lg -->
+      <p class="hero-fade text-4xl leading-[1.05] font-medium tracking-tight md:col-span-12 md:text-6xl lg:col-span-6">
         Creative developer<br />
         &amp; <span class="accent text-5xl md:text-7xl">problem solver</span>.
       </p>
       <!-- Paragraph and badge share one flex row so the badge can never sit on top of the text -->
-      <div class="flex items-end justify-between gap-8 md:col-span-6 md:col-start-7">
+      <div class="flex items-end justify-between gap-8 md:col-span-12 lg:col-span-6 lg:col-start-7">
         <p class="hero-fade max-w-sm text-lg text-ink/70">
           I find what's really getting in the way, design a way through it, and build it into something fast and
           enjoyable to use.

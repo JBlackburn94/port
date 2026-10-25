@@ -47,7 +47,7 @@ export function useReveal(root) {
       root.value.querySelectorAll('[data-reveal="lines"]').forEach((el) => {
         const split = SplitText.create(el, { type: "lines", mask: "lines", linesClass: "reveal-line" });
         gsap.from(split.lines, {
-          yPercent: 110,
+          yPercent: 120,
           duration: 1.1,
           ease: "expo.out",
           stagger: 0.08,
