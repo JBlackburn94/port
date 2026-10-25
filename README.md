@@ -10,7 +10,7 @@ npm run build    # outputs dist/
 
 ## Positioning
 
-**Creative problem solver & developer.** Every section should answer "what problem, what did I do about it, what changed", not only "what I built".
+**Creative developer & problem solver.** Every section should answer "what problem, what did I do about it, what changed", not only "what I built".
 
 ## Design direction
 

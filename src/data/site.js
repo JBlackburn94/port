@@ -1,7 +1,7 @@
 // Contact details and links used across the site. Swap the placeholders before launch.
 export const site = {
   name: "Jason Blackburn",
-  role: "Creative problem solver & developer",
+  role: "Creative developer & problem solver",
   location: "Leeds, UK",
   timeZone: "Europe/London",
   available: true,

@@ -72,8 +72,8 @@ onBeforeUnmount(() => ctx?.revert());
 
     <div class="mt-8 grid items-end gap-8 md:grid-cols-12">
       <p class="hero-fade text-4xl leading-[1.05] font-medium tracking-tight md:col-span-6 md:text-6xl">
-        Creative <span class="accent text-5xl md:text-7xl">problem solver</span><br />
-        &amp; developer.
+        Creative developer<br />
+        &amp; <span class="accent text-5xl md:text-7xl">problem solver</span>.
       </p>
       <!-- Paragraph and badge share one flex row so the badge can never sit on top of the text -->
       <div class="flex items-end justify-between gap-8 md:col-span-6 md:col-start-7">
