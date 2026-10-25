@@ -46,7 +46,11 @@ onBeforeUnmount(() => ctx?.revert());
 </script>
 
 <template>
-  <section ref="root" class="relative flex min-h-svh flex-col justify-end overflow-hidden px-5 pt-28 pb-8 md:px-10">
+  <!-- Fills the screen on desktop; on phones it's content-height so the name sits near the top -->
+  <section
+    ref="root"
+    class="relative flex flex-col overflow-hidden px-5 pt-24 pb-12 md:min-h-svh md:justify-end md:px-10 md:pt-28 md:pb-8"
+  >
     <div class="label hero-fade mb-auto grid grid-cols-2 gap-4 pt-6 md:grid-cols-4">
       <span>(00) Portfolio · {{ new Date().getFullYear() }}</span>
       <span class="hidden md:block">{{ site.location }}</span>
@@ -61,7 +65,7 @@ onBeforeUnmount(() => ctx?.revert());
     </div>
 
     <h1 class="sr-only">{{ site.name }}, {{ site.role }}</h1>
-    <div aria-hidden="true" class="hero-name display mt-16 text-[19.5vw] leading-[0.8] whitespace-nowrap md:text-[21.5vw]">
+    <div aria-hidden="true" class="hero-name display mt-10 text-[19.5vw] leading-[0.8] whitespace-nowrap md:text-[21.5vw]">
       <div class="hero-name-a">Jason</div>
       <div class="hero-name-b text-right">Blackburn</div>
     </div>
@@ -71,12 +75,15 @@ onBeforeUnmount(() => ctx?.revert());
         Creative <span class="accent text-5xl md:text-7xl">problem solver</span><br />
         &amp; developer.
       </p>
-      <p class="hero-fade max-w-sm text-lg text-ink/70 md:col-span-4 md:col-start-8">
-        I find what's really getting in the way, design a way through it, and build it into something fast and
-        enjoyable to use.
-      </p>
-      <div class="hero-badge hidden justify-end md:col-span-1 md:col-start-12 md:flex">
-        <SpinBadge text="Scroll · Explore · Scroll · Explore · " />
+      <!-- Paragraph and badge share one flex row so the badge can never sit on top of the text -->
+      <div class="flex items-end justify-between gap-8 md:col-span-6 md:col-start-7">
+        <p class="hero-fade max-w-sm text-lg text-ink/70">
+          I find what's really getting in the way, design a way through it, and build it into something fast and
+          enjoyable to use.
+        </p>
+        <div class="hero-badge hidden shrink-0 lg:block">
+          <SpinBadge text="Scroll · Scroll · Scroll · " />
+        </div>
       </div>
     </div>
   </section>
