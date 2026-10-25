@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from "vue";
 
-// Text around a circle with an arrow in the middle, spinning slowly (still when motion is reduced).
+// Text around a circle with an arrow in the middle. The ring (.spin-badge-ring) is turned by
+// the parent as the page scrolls rather than spinning on its own (WCAG 2.2.2).
 // Every character gets an equal slice of the circle, so with the monospace font the spacing is
 // identical everywhere, including where the text wraps back to its start.
 const props = defineProps({
@@ -16,7 +17,7 @@ const chars = computed(() => {
 
 <template>
   <div class="relative size-28 shrink-0" aria-hidden="true">
-    <svg viewBox="0 0 100 100" class="size-full animate-[spin_14s_linear_infinite] motion-reduce:animate-none">
+    <svg viewBox="0 0 100 100" class="spin-badge-ring size-full">
       <text
         v-for="(c, i) in chars"
         :key="i"

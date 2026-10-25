@@ -41,19 +41,19 @@ const next = computed(() => {
 
       <dl class="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-ink/15 md:grid-cols-4" data-reveal="fade">
         <div class="bg-paper p-5">
-          <dt class="label mb-3 text-ink/55">Role</dt>
+          <dt class="label mb-3 text-ink/70">Role</dt>
           <dd>{{ project.role }}</dd>
         </div>
         <div class="bg-paper p-5">
-          <dt class="label mb-3 text-ink/55">Year</dt>
+          <dt class="label mb-3 text-ink/70">Year</dt>
           <dd>{{ project.year }}</dd>
         </div>
         <div class="bg-paper p-5">
-          <dt class="label mb-3 text-ink/55">Status</dt>
+          <dt class="label mb-3 text-ink/70">Status</dt>
           <dd>{{ project.status }}</dd>
         </div>
         <div class="bg-paper p-5">
-          <dt class="label mb-3 text-ink/55">Stack</dt>
+          <dt class="label mb-3 text-ink/70">Stack</dt>
           <dd>{{ project.stack.join(", ") }}</dd>
         </div>
       </dl>

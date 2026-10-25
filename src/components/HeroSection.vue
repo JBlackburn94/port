@@ -32,6 +32,13 @@ const intro = () => {
       ease: "none",
       scrollTrigger: { trigger: root.value, start: "top top", end: "bottom top", scrub: true },
     });
+
+    // The badge's ring turns as you scroll rather than spinning by itself
+    gsap.to(".hero-badge .spin-badge-ring", {
+      rotate: 540,
+      ease: "none",
+      scrollTrigger: { trigger: root.value, start: "top top", end: "bottom top", scrub: 0.6 },
+    });
   }, root.value);
 };
 
@@ -57,7 +64,10 @@ onBeforeUnmount(() => ctx?.revert());
       <span class="hidden md:block">{{ time }} local time</span>
       <span v-if="site.available" class="flex items-center justify-end gap-2 md:justify-start">
         <span class="relative flex size-2">
-          <span class="absolute inline-flex size-full animate-ping rounded-full bg-lime opacity-75"></span>
+          <!-- Pings four times then rests, so it never animates for longer than 5s (WCAG 2.2.2) -->
+          <span
+            class="absolute inline-flex size-full animate-ping rounded-full bg-lime opacity-75 [animation-iteration-count:4] motion-reduce:animate-none"
+          ></span>
           <span class="relative inline-flex size-2 rounded-full bg-[#8fb81a]"></span>
         </span>
         Open to projects

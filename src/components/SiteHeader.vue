@@ -18,7 +18,7 @@ onBeforeUnmount(() => window.removeEventListener("scroll", onScroll));
 
 <template>
   <header
-    class="fixed inset-x-0 top-0 z-50 flex items-center justify-between p-4 transition-transform duration-500 ease-out-expo md:p-6"
+    class="fixed inset-x-0 top-0 z-50 flex items-center justify-between p-4 transition-transform duration-500 ease-out-expo focus-within:translate-y-0! md:p-6"
     :class="hidden ? '-translate-y-full' : 'translate-y-0'"
   >
     <RouterLink
@@ -30,7 +30,7 @@ onBeforeUnmount(() => window.removeEventListener("scroll", onScroll));
       {{ site.name }}
     </RouterLink>
 
-    <nav class="flex items-center gap-2">
+    <nav class="flex items-center gap-2" aria-label="Main">
       <div class="hidden rounded-full bg-paper/70 p-1 backdrop-blur-md md:flex">
         <RouterLink :to="{ path: '/', hash: '#work' }" class="pill py-2 hover:bg-ink hover:text-paper">Work</RouterLink>
         <RouterLink :to="{ path: '/', hash: '#approach' }" class="pill py-2 hover:bg-ink hover:text-paper"

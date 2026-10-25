@@ -13,15 +13,16 @@ let tween, trigger;
 
 onMounted(() => {
   if (prefersReducedMotion()) return;
-  // The track holds two copies, so sliding it half its width loops seamlessly
-  tween = gsap.to(track.value, { xPercent: -50, duration: 28, ease: "none", repeat: -1 });
+  // The track holds two copies, so sliding it half its width loops seamlessly. It only moves
+  // while the page scrolls (faster scrolling, faster band; scrolling up reverses it) and eases
+  // to a stop shortly after, so nothing moves on its own for more than a moment (WCAG 2.2.2).
+  tween = gsap.to(track.value, { xPercent: -50, duration: 28, ease: "none", repeat: -1 }).timeScale(0);
 
-  // Scrolling speeds the band up briefly, and scrolling up reverses it
   trigger = ScrollTrigger.create({
     onUpdate: (self) => {
-      const boost = 1 + Math.min(Math.abs(self.getVelocity()) / 400, 4);
-      gsap.to(tween, { timeScale: boost * self.direction, duration: 0.2, overwrite: true });
-      gsap.to(tween, { timeScale: self.direction, duration: 1.2, delay: 0.2 });
+      const speed = 1 + Math.min(Math.abs(self.getVelocity()) / 200, 6);
+      gsap.to(tween, { timeScale: speed * self.direction, duration: 0.2, overwrite: true });
+      gsap.to(tween, { timeScale: 0, duration: 1.2, delay: 0.2 });
     },
   });
 });

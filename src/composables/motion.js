@@ -39,6 +39,7 @@ export function scrollToTop() {
  */
 export function useReveal(root) {
   let ctx;
+  const readableCopies = [];
 
   const setup = () => {
     ctx = gsap.context(() => {
@@ -68,10 +69,20 @@ export function useReveal(root) {
       });
 
       root.value.querySelectorAll('[data-reveal="words"]').forEach((el) => {
-        const split = SplitText.create(el, { type: "words" });
+        // aria-label isn't allowed on a <p>, so instead of SplitText's default ARIA the split
+        // copy is hidden from screen readers and an intact visually-hidden copy is read instead
+        const readable = document.createElement("span");
+        readable.className = "sr-only";
+        readable.textContent = el.textContent.trim();
+        el.before(readable);
+        readableCopies.push(readable);
+        el.setAttribute("aria-hidden", "true");
+
+        const split = SplitText.create(el, { type: "words", aria: "none" });
+        // Dim words start at 0.65 opacity: still ≥4.5:1 contrast on lilac, paper and ink
         gsap.fromTo(
           split.words,
-          { opacity: 0.18 },
+          { opacity: 0.65 },
           {
             opacity: 1,
             stagger: 0.1,
@@ -91,5 +102,8 @@ export function useReveal(root) {
     });
   });
 
-  onBeforeUnmount(() => ctx?.revert());
+  onBeforeUnmount(() => {
+    ctx?.revert();
+    readableCopies.forEach((copy) => copy.remove());
+  });
 }

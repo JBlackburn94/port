@@ -1,4 +1,24 @@
+# Dependencies and build output
 node_modules
 dist
-.DS_Store
+
+# Environment variables and local overrides (never commit secrets)
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Tooling
 .vercel
+.claude/settings.local.json
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db

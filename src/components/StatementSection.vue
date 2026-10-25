@@ -27,7 +27,7 @@ const facts = [
 
     <dl class="mt-20 grid gap-px overflow-hidden rounded-2xl bg-ink/15 md:col-span-9 md:mt-28 md:grid-cols-3">
       <div v-for="(f, i) in facts" :key="f.k" class="bg-lilac p-6 md:p-8" data-reveal="fade" :data-reveal-delay="i * 0.1">
-        <dt class="label mb-6 text-ink/60">{{ f.k }}</dt>
+        <dt class="label mb-6 text-ink/70">{{ f.k }}</dt>
         <dd class="text-2xl font-medium tracking-tight">{{ f.v }}</dd>
       </div>
     </dl>

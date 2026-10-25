@@ -42,4 +42,12 @@ All fonts are self-hosted through Fontsource, so there are no third-party font r
 
 ## Content
 
-Projects live in `src/data/projects.js`. Add a project there and it shows up in the carousel and gets its own `/work/:slug` page.
+Projects live in `src/data/projects.js`. Add a project there and it shows up in the carousel and gets its own `/work/:slug` page. It is also added to the sitemap automatically, and its page gets its own title and description.
+
+Site-wide details (name, live URL, email, socials) live in `src/data/site.js`. **Update `url` when the custom domain goes live**, because canonical links, social previews, `robots.txt` and `sitemap.xml` are all built from it.
+
+## SEO, accessibility and security
+
+- **SEO:** `index.html` carries the home page's title, description, Open Graph/Twitter tags and Person structured data, all filled in from `site.js` at build time by the `site-meta` plugin in `vite.config.js`. The same plugin generates `robots.txt` and `sitemap.xml`. `src/composables/head.js` updates the tags on each route change. The social preview image is `public/og.png` (1200×630).
+- **Accessibility:** the site targets WCAG 2.2 AA. Nothing moves on its own for more than 5 seconds: the carousel has a pause button, and the marquee and badge only move while you scroll. All motion is off with `prefers-reduced-motion`. Text meets 4.5:1 contrast, including the word-reveal paragraphs at their faintest. There's a skip link and a visible focus ring on every background.
+- **Security:** headers (CSP, HSTS, `X-Frame-Options`, `nosniff`, referrer and permissions policies) are set in `vercel.json`. `npm run preview` sends the same headers, so test any new third-party script or embed there first, because the CSP only allows the site's own scripts, fonts and images.

@@ -1,15 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#150734" />
-    <meta name="description" content="Jason Blackburn: creative developer and problem solver." />
-    <title>Jason Blackburn: Creative Developer &amp; Problem Solver</title>
+
+    <!-- The SITE_ placeholders are filled in from src/data/site.js at build time (see the
+         site-meta plugin in vite.config.js). The app then updates these tags per page. -->
+    <title>%SITE_TITLE%</title>
+    <meta name="description" content="%SITE_DESCRIPTION%" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="%SITE_URL%/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="%SITE_NAME%" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content="%SITE_TITLE%" />
+    <meta property="og:description" content="%SITE_DESCRIPTION%" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="%SITE_NAME%: %SITE_ROLE%" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="%SITE_TITLE%" />
+    <meta name="twitter:description" content="%SITE_DESCRIPTION%" />
+    <meta name="twitter:image" content="%SITE_URL%/og.png" />
+
+    <script type="application/ld+json">
+      %SITE_JSON_LD%
+    </script>
   </head>
   <body>
     <div id="app"></div>
+    <noscript>
+      <p style="padding: 2rem; font-family: system-ui, sans-serif">
+        %SITE_NAME%, %SITE_ROLE%. This site needs JavaScript to show its full design. Email me at
+        <a href="mailto:%SITE_EMAIL%">%SITE_EMAIL%</a>.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

@@ -65,14 +65,16 @@ const backToTop = () => {
           <li v-for="p in liveProjects" :key="p.slug">
             <RouterLink :to="`/work/${p.slug}`" class="hover:text-lime">{{ p.title }}</RouterLink>
           </li>
-          <li class="text-paper/40">More soon</li>
+          <li class="text-paper/60">More soon</li>
         </ul>
       </div>
       <div>
         <p class="label mb-4 text-lime">Elsewhere</p>
         <ul class="space-y-2">
           <li v-for="s in site.socials" :key="s.label">
-            <a :href="s.href" target="_blank" rel="noopener" class="hover:text-lime">{{ s.label }} ↗</a>
+            <a :href="s.href" target="_blank" rel="noopener noreferrer" class="hover:text-lime">
+              {{ s.label }} <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span>
+            </a>
           </li>
         </ul>
       </div>
@@ -85,7 +87,7 @@ const backToTop = () => {
 
     <!-- Pill navigation bar -->
     <section class="flex flex-wrap items-center justify-between gap-3 px-5 pb-6 md:px-10">
-      <nav class="flex rounded-full bg-ink-soft p-1">
+      <nav class="flex rounded-full bg-ink-soft p-1" aria-label="Footer">
         <RouterLink to="/" class="pill py-2 hover:bg-paper hover:text-ink">Home</RouterLink>
         <RouterLink :to="{ path: '/', hash: '#work' }" class="pill py-2 hover:bg-paper hover:text-ink">Work</RouterLink>
         <a :href="`mailto:${site.email}`" class="pill py-2 hover:bg-paper hover:text-ink">Contact</a>
@@ -94,8 +96,8 @@ const backToTop = () => {
     </section>
 
     <!-- Giant wordmark -->
-    <div class="px-3 select-none md:px-6" aria-hidden="true">
-      <p class="display translate-y-[12%] text-center text-[13vw] whitespace-nowrap text-lilac">
+    <div class="px-3 pb-2 select-none md:px-6 md:pb-4" aria-hidden="true">
+      <p class="display text-center text-[13vw] whitespace-nowrap text-lilac">
         Jason <span class="accent text-lime">Blackburn</span>
       </p>
     </div>

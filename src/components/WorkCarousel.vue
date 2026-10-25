@@ -10,8 +10,9 @@ import ProjectCover from "./ProjectCover.vue";
 gsap.registerPlugin(Draggable);
 
 // Each slide stays up for SLIDE_SECONDS; the bar under it shows how long until the next one.
-// The timer runs while the carousel is on screen, and pauses only while the active card is
-// hovered or the track is being dragged.
+// The timer runs while the carousel is on screen, and holds while the active card is hovered,
+// the track is dragged or anything inside has keyboard focus. The pause button stops it
+// outright (WCAG 2.2.2), and it starts paused for people who prefer reduced motion.
 const SLIDE_SECONDS = 6;
 
 const root = ref(null);
@@ -19,9 +20,11 @@ const track = ref(null);
 const cards = ref([]);
 const fills = ref([]);
 const active = ref(0);
+const paused = ref(prefersReducedMotion());
 
 let timer = null;
 let hoveringActive = false;
+let focusedWithin = false;
 let dragging = false;
 let justDragged = false;
 let inView = false;
@@ -46,8 +49,18 @@ const moveTrack = (instant = false) => {
 
 const syncTimer = () => {
   if (!timer) return;
-  if (inView && !hoveringActive && !dragging) timer.play();
+  if (inView && !paused.value && !hoveringActive && !focusedWithin && !dragging) timer.play();
   else timer.pause();
+};
+
+const togglePaused = () => {
+  paused.value = !paused.value;
+  syncTimer();
+};
+
+const onFocusChange = (e) => {
+  focusedWithin = e.type === "focusin" || root.value.contains(e.relatedTarget);
+  syncTimer();
 };
 
 const goTo = (i) => {
@@ -75,7 +88,7 @@ const hoverCard = (i, over) => {
 // After a drag, swallow the click so the card's link doesn't open. A click on a side card
 // brings it to the front instead of following its link.
 const onTrackClick = (e) => {
-  const card = e.target.closest("article");
+  const card = e.target.closest("[aria-roledescription=slide]");
   const i = cards.value.indexOf(card);
   if (justDragged || (i !== -1 && i !== active.value)) {
     e.preventDefault();
@@ -150,10 +163,18 @@ onBeforeUnmount(() => {
 
 <template>
   <!-- overflow-x-clip (not hidden) so the sticky controls below still stick to the viewport -->
-  <section id="work" ref="root" class="overflow-x-clip bg-ink pt-24 pb-20 text-paper md:pt-28 md:pb-32">
+  <section
+    id="work"
+    ref="root"
+    class="overflow-x-clip bg-ink pt-24 pb-20 text-paper md:pt-28 md:pb-32"
+    aria-roledescription="carousel"
+    aria-labelledby="work-title"
+    @focusin="onFocusChange"
+    @focusout="onFocusChange"
+  >
     <div class="mb-10 grid gap-6 px-5 md:mb-14 md:grid-cols-12 md:px-10">
       <p class="label text-lilac md:col-span-3">(03) Selected work</p>
-      <h2 class="display text-[16vw] md:col-span-9 md:text-[7.5vw]" data-reveal="lines">
+      <h2 id="work-title" class="display text-[16vw] md:col-span-9 md:text-[7.5vw]" data-reveal="lines">
         Things I've <span class="accent text-lime">made</span>
       </h2>
     </div>
@@ -165,14 +186,17 @@ onBeforeUnmount(() => {
         <div
           ref="track"
           class="flex cursor-grab gap-4 select-none active:cursor-grabbing md:gap-6"
+          :aria-live="paused ? 'polite' : 'off'"
           @click.capture="onTrackClick"
         >
-          <article
+          <div
             v-for="(p, i) in projects"
             :key="p.slug"
             ref="cards"
-            class="w-[86%] shrink-0 transition-opacity duration-700 md:w-[64%] xl:w-[58%]"
-            :class="i === active ? 'opacity-100' : 'opacity-35 hover:opacity-60'"
+            class="w-[86%] shrink-0 md:w-[64%] xl:w-[58%]"
+            role="group"
+            aria-roledescription="slide"
+            :aria-label="`${i + 1} of ${projects.length}: ${p.title}`"
             :aria-hidden="i !== active"
             @pointerenter="hoverCard(i, true)"
             @pointerleave="hoverCard(i, false)"
@@ -185,11 +209,19 @@ onBeforeUnmount(() => {
               :tabindex="i === active ? 0 : -1"
               draggable="false"
             >
-              <div class="aspect-[4/3] overflow-hidden rounded-2xl md:aspect-[16/9] md:rounded-3xl">
+              <!-- Side cards show only a dimmed cover; their text appears once they're active, so
+                   no faded (low-contrast) text is ever on screen -->
+              <div
+                class="aspect-[4/3] overflow-hidden rounded-2xl transition-opacity duration-700 md:aspect-[16/9] md:rounded-3xl"
+                :class="i === active ? 'opacity-100' : 'opacity-35 hover:opacity-60'"
+              >
                 <ProjectCover :project="p" />
               </div>
               <!-- Stacked so it reads cleanly however narrow the card gets -->
-              <div class="mt-5">
+              <div
+                class="mt-5 transition-opacity duration-500"
+                :class="i === active ? 'opacity-100' : 'invisible opacity-0'"
+              >
                 <div class="flex flex-wrap items-center gap-3">
                   <h3 class="text-2xl font-semibold tracking-tight">{{ p.title }}</h3>
                   <span
@@ -211,7 +243,7 @@ onBeforeUnmount(() => {
                 </ul>
               </div>
             </component>
-          </article>
+          </div>
         </div>
       </div>
 
@@ -226,7 +258,7 @@ onBeforeUnmount(() => {
             <button
               v-for="(p, i) in projects"
               :key="p.slug"
-              class="group min-w-0 py-1 text-left"
+              class="group min-w-0 py-3 text-left sm:py-1"
               :aria-label="`Show ${p.title}`"
               :aria-current="i === active"
               @click="goTo(i)"
@@ -236,7 +268,7 @@ onBeforeUnmount(() => {
               </span>
               <span
                 class="label mt-3 hidden justify-between gap-2 transition-colors sm:flex"
-                :class="i === active ? 'text-paper' : 'text-paper/40 group-hover:text-paper/70'"
+                :class="i === active ? 'text-paper' : 'text-paper/60 group-hover:text-paper/80'"
               >
                 <span class="truncate">{{ p.title }}</span>
                 <span class="hidden md:inline">0{{ i + 1 }}</span>
@@ -245,6 +277,18 @@ onBeforeUnmount(() => {
           </div>
 
           <div class="flex shrink-0 gap-2">
+            <button
+              class="pill size-11 justify-center border border-paper/25 p-0 hover:bg-lime hover:text-ink md:size-12"
+              :aria-label="paused ? 'Play slideshow' : 'Pause slideshow'"
+              @click="togglePaused"
+            >
+              <svg v-if="paused" viewBox="0 0 16 16" class="size-3.5 fill-current" aria-hidden="true">
+                <path d="M4 2.5v11l9-5.5z" />
+              </svg>
+              <svg v-else viewBox="0 0 16 16" class="size-3.5 fill-current" aria-hidden="true">
+                <path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" />
+              </svg>
+            </button>
             <button
               class="pill size-11 justify-center border border-paper/25 p-0 hover:bg-lime hover:text-ink md:size-12"
               aria-label="Previous project"
