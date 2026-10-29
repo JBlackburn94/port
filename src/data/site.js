@@ -10,7 +10,7 @@ export const site = {
   location: "Leeds, UK",
   timeZone: "Europe/London",
   available: true,
-  email: "hello@jasonblackburn.dev",
+  email: "jblackburndeveloper@gmail.com",
   socials: [
     { label: "GitHub", href: "https://github.com/" },
     { label: "LinkedIn", href: "https://www.linkedin.com/" },
