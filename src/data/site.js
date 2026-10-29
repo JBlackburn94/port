@@ -12,7 +12,7 @@ export const site = {
   available: true,
   email: "jblackburndeveloper@gmail.com",
   socials: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
+    { label: "GitHub", href: "https://github.com/JBlackburn94" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/jason-blackburn-frontend-developer/" },
   ],
 };
