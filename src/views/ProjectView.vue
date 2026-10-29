@@ -76,7 +76,8 @@ const next = computed(() => {
       <div class="grid gap-8 md:grid-cols-12">
         <p class="label md:col-span-3">(02) The approach</p>
         <h2 class="display text-[14vw] md:col-span-9 md:text-[7vw]" data-reveal="lines">
-          Point, <span class="accent">describe</span>, hand off
+          {{ project.approachHeading[0] }}<span class="accent">{{ project.approachHeading[1] }}</span
+          >{{ project.approachHeading[2] }}
         </h2>
       </div>
       <ol class="mt-14 grid gap-4 md:grid-cols-2">

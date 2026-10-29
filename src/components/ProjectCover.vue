@@ -50,6 +50,40 @@ defineProps({ project: { type: Object, required: true } });
           </g>
         </g>
 
+        <!-- Enhance: a planning drawing sheet, with the application site marked in red.
+             Everything sits inside y 48–252 so it survives the 16:9 crop on wide cards. -->
+        <g v-else-if="project.cover.motif === 'redline'" fill="none" stroke="currentColor">
+          <rect x="16" y="48" width="368" height="204" stroke-width="1" opacity="0.5" />
+          <rect x="22" y="54" width="356" height="192" stroke-width="0.6" opacity="0.25" />
+          <!-- Estate road and house plots either side of it -->
+          <path d="M22 168 C 110 158 190 186 378 140" stroke-width="9" opacity="0.12" />
+          <g stroke-width="0.8" opacity="0.4">
+            <rect v-for="i in 7" :key="`n${i}`" :x="40 + i * 26" :y="132 + (i % 2) * 4" width="18" height="14" />
+            <rect v-for="i in 6" :key="`s${i}`" :x="70 + i * 30" :y="190 - i * 3" width="20" height="15" />
+          </g>
+          <!-- The red line: the application site boundary -->
+          <polygon
+            points="168,70 292,62 312,112 262,128 178,122"
+            :stroke="project.cover.accent"
+            :fill="project.cover.accent"
+            fill-opacity="0.07"
+            stroke-width="2.5"
+            stroke-linejoin="round"
+          />
+          <!-- North arrow -->
+          <g transform="translate(350 78)" stroke-width="1" opacity="0.7">
+            <line x1="0" y1="14" x2="0" y2="-12" />
+            <path d="M0 -14 L-5 -2 L0 -5 L5 -2 Z" fill="currentColor" />
+          </g>
+          <!-- Title block -->
+          <g stroke-width="0.8" opacity="0.5">
+            <rect x="292" y="206" width="86" height="40" />
+            <line x1="292" y1="220" x2="378" y2="220" />
+            <line x1="292" y1="233" x2="378" y2="233" />
+            <line x1="335" y1="220" x2="335" y2="246" />
+          </g>
+        </g>
+
         <g v-else-if="project.cover.motif === 'rings'" fill="none" stroke="currentColor" stroke-width="1.2">
           <circle v-for="r in 8" :key="r" cx="300" cy="80" :r="r * 26" opacity="0.6" />
         </g>
